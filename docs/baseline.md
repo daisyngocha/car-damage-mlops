@@ -9,6 +9,7 @@
 - Mốc so sánh: đoán toàn bộ là lớp đông nhất (03-severe) = 91/248 = 36.7% → baseline hơn ~23 điểm
 - Thời gian: 5m27s / 3 epoch (~2.2 s/batch)
 - Tái lập: run1 vs run2 trùng khớp hoàn toàn (diff rỗng)
+- Tái lập từ clone sạch (G3, `uv sync --locked`, torch 2.14.1+cpu): Acc@1 60.081, khớp v0-baseline
 - Gap ghi nhận: head 1000 lớp (loss khởi đầu 9.77), top-5 vô nghĩa, checkpoint ghi ra thư mục gốc, metric chỉ print, code distributed gây nhiễu
 
 ## Ghi nguồn dữ liệu

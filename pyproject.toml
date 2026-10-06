@@ -1,0 +1,29 @@
+[project]
+name = "car-damage-mlops"
+version = "0.1.0"
+description = "Car damage severity classification (minor/moderate/severe) - MLOps learning project"
+requires-python = "==3.11.*"
+dependencies = [
+    "torch==2.14.1",          # đúng bản đã đo baseline 60.081
+    "torchvision==0.29.1",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit",
+    "pytest",
+    "ruff",
+]
+
+[tool.uv]
+package = false                               # repo chứa script, không build thành package
+environments = ["sys_platform == 'linux'"]    # WSL, CI, Docker, Cloud Run đều là Linux
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true                               # chỉ dùng cho package khai báo ở [tool.uv.sources]
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu" }]
+torchvision = [{ index = "pytorch-cpu" }]
