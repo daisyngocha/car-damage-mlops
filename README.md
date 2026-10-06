@@ -1,3 +1,21 @@
+# car-damage-mlops
+
+Phân loại mức độ hư hỏng xe (minor / moderate / severe) từ ảnh, dựa trên `pytorch/examples/imagenet` (BSD-3-Clause).
+
+## Setup
+
+Yêu cầu: Linux/WSL2, uv ≥ 0.12.
+
+```bash
+uv sync --locked      # tạo .venv đúng uv.lock: Python 3.11, torch 2.14.1 CPU
+uv run python main.py -a resnet18 --pretrained --epochs 3 -b 32 --lr 0.01 -j 2 --seed 42 data/raw
+```
+
+Thêm thư viện: `uv add <pkg>` (train) hoặc `uv add --dev <pkg>`; luôn commit cả `pyproject.toml` và `uv.lock`.
+
+---
+
+
 # ImageNet training in PyTorch
 
 This implements training of popular model architectures, such as ResNet, AlexNet, and VGG on the ImageNet dataset.
