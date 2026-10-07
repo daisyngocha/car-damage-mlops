@@ -2,6 +2,9 @@
 
 Phân loại mức độ hư hỏng xe (minor / moderate / severe) từ ảnh, dựa trên `pytorch/examples/imagenet` (BSD-3-Clause).
 
+Test daily action với github xem đã oke chưa?
+
+
 ## Setup
 
 Yêu cầu: Linux/WSL2, uv ≥ 0.12.
