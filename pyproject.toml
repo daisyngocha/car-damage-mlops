@@ -29,5 +29,9 @@ explicit = true                               # chỉ dùng cho package khai bá
 [tool.uv.sources]
 torch = [{ index = "pytorch-cpu" }]
 torchvision = [{ index = "pytorch-cpu" }]
+[tool.pytest.ini_options]
+pythonpath = ["."]                           # cho phép `import src...` khi chạy pytest
+testpaths = ["tests"]
+
 [tool.ruff]
 line-length = 100
