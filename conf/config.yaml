@@ -1,0 +1,21 @@
+defaults:
+  - data: car_damage
+  - model: resnet18
+  - train: default
+  - _self_
+
+seed: 42
+device: auto          # auto | cpu | cuda
+
+paths:
+  models_dir: models
+  reports_dir: reports
+
+hydra:
+  run:
+    dir: outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    subdir: ${hydra.job.num}
+  job:
+    chdir: false      # giữ cwd = gốc repo → path tương đối trong config vẫn đúng

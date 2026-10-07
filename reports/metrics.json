@@ -1,0 +1,7 @@
+{
+  "accuracy": 64.516,
+  "macro_f1": 64.561,
+  "val_loss": 0.7302,
+  "n_val": 248,
+  "checkpoint_epoch": 3
+}

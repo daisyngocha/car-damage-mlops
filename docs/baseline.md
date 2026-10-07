@@ -17,3 +17,8 @@
 https://www.kaggle.com/datasets/prajwalbhamere/car-damage-severity-dataset
 License: CC BY-NC-SA 4.0 — https://creativecommons.org/licenses/by-nc-sa/4.0/
 Thay đổi: đổi tên thư mục `training` → `train`, `validation` → `val`; không chỉnh sửa ảnh hay nhãn.
+
+## G4 — refactor src/ + Hydra (commit <hash>)
+- Parity (head 1000, replace_head=false): val Acc@1 48.790 / 57.258 / 60.081 → khớp v0-baseline
+- Head 3 lớp, config mặc định: Acc@1 = <...>, macro-F1 = <...>
+- Lệnh: uv run python -m src.train && uv run python -m src.evaluate

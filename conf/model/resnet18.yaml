@@ -1,0 +1,4 @@
+arch: resnet18
+weights: IMAGENET1K_V1   # null = train từ đầu; ghi rõ tên weights thay vì DEFAULT để không đổi ngầm khi nâng torchvision
+num_classes: 3
+replace_head: true       # false = giữ head 1000 lớp như upstream (chỉ dùng cho parity test)
