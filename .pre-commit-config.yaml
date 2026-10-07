@@ -1,5 +1,4 @@
 # Giữ nguyên code upstream đến G4 để còn diff với pytorch/examples
-exclude: ^(main\.py|extract_ILSVRC\.sh)$
 
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
