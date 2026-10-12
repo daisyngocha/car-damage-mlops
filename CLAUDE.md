@@ -21,6 +21,10 @@ uv run python -m src.train             # train → models/model.pt + reports/tra
 uv run python -m src.evaluate          # eval  → reports/metrics.json + reports/confusion.csv
 uv run python -m src.train train.epochs=1 data.num_workers=0 device=cpu   # Hydra overrides
 uv run python -m src.train -m train.lr=0.01,0.001                         # sweep → multirun/
+
+uv run python -m src.validate        # validate data/raw → reports/validation.json, exit 1 nếu lỗi chặn
+uv run dvc pull / uv run dvc push    # đồng bộ data/raw, data/annotations với remote (~/dvc-storage)
+
 ```
 
 - Add dependencies with `uv add <pkg>` (or `uv add --dev <pkg>`) and always commit `pyproject.toml` and `uv.lock` together. The `uv-lock` pre-commit hook checks that they stay in sync.
@@ -35,6 +39,7 @@ uv run python -m src.train -m train.lr=0.01,0.001                         # swee
 - **Parity with upstream**: `model.replace_head=false` keeps the 1000-class head so a run can be checked against the v0 baseline (`docs/baseline.md`). `train.py` deliberately creates the model *before* the data loaders so the random sequence matches upstream. Keep that order.
 - **Reports**: `reports/` is committed. `confusion.csv` (one row per val image) is shaped for the DVC plots planned in G6.
 - **Data**: `data/raw/{train,val}/<class>/` (Kaggle Car Damage Severity Dataset, CC BY-NC-SA 4.0). It is not committed.
+- **Data**: data/raw do DVC quản lý, không sửa tay; mọi thay đổi data đi qua dvc add → commit → dvc push.
 
 ## Tests
 
