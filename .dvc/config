@@ -1,0 +1,5 @@
+[core]
+    autostage = true
+    remote = localstore
+['remote "localstore"']
+    url = /home/daisyngocha/dvc-storage/car-damage-mlops

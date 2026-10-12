@@ -22,3 +22,6 @@ Thay đổi: đổi tên thư mục `training` → `train`, `validation` → `va
 - Parity (head 1000, replace_head=false): val Acc@1 48.790 / 57.258 / 60.081 → khớp v0-baseline
 - Head 3 lớp, config mặc định: Acc@1 = <...>, macro-F1 = <...>
 - Lệnh: uv run python -m src.train && uv run python -m src.evaluate
+
+## G5 -
+- phát hiện 2 nhóm leakage và 11 nhóm duplicate trong dữ liệu gốc.
