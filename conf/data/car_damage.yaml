@@ -6,3 +6,12 @@ resize: 256
 mean: [0.485, 0.456, 0.406]
 std: [0.229, 0.224, 0.225]
 num_workers: 2
+validation:
+  splits: [train, val]
+  classes: [01-minor, 02-moderate, 03-severe]
+  min_per_class: 20
+  min_share: 0.05
+  min_side: 64
+  fail_on_conflict: true
+  fail_on_leakage: false
+  report_path: reports/validation.json
