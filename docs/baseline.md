@@ -27,3 +27,5 @@ Thay đổi: đổi tên thư mục `training` → `train`, `validation` → `va
 - phát hiện 2 nhóm leakage và 11 nhóm duplicate trong dữ liệu gốc.
 - Agreement: 69.5%
 - Cohen's kappa: 0.54
+- Data quality (validate, data-v1): 11 nhóm trùng md5, 0 conflict nhãn, 2 nhóm leakage train↔val
+  → Acc@1 60.081 có thể lạc quan tối đa ~0.8 điểm; G6 prepare loại bản trùng trong train, giữ nguyên val 248 ảnh
