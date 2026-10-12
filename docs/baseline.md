@@ -25,3 +25,5 @@ Thay đổi: đổi tên thư mục `training` → `train`, `validation` → `va
 
 ## G5 -
 - phát hiện 2 nhóm leakage và 11 nhóm duplicate trong dữ liệu gốc.
+- Agreement: 69.5%
+- Cohen's kappa: 0.54
