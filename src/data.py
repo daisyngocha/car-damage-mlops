@@ -1,3 +1,5 @@
+from pathlib import Path  # (thêm ở đầu file nếu chưa có)
+
 from omegaconf import DictConfig
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
@@ -25,7 +27,7 @@ def build_transforms(cfg: DictConfig, train: bool) -> transforms.Compose:
 
 
 def build_dataset(cfg: DictConfig, split: str) -> datasets.ImageFolder:
-    root = cfg.train_dir if split == "train" else cfg.val_dir
+    root = Path(cfg.processed_dir) / split
     return datasets.ImageFolder(root, build_transforms(cfg, train=split == "train"))
 
 

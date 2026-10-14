@@ -12,6 +12,22 @@ stages:
       hash: md5
       md5: 398f7a8bae8fafe15aeaa426fcd0f0bd
       size: 4271
+    params:
+      conf/data/default.yaml:
+        validation:
+          splits:
+          - train
+          - val
+          classes:
+          - 01-minor
+          - 02-moderate
+          - 03-severe
+          min_side: 32
+          min_per_class: 10
+          min_share: 0.05
+          fail_on_conflict: true
+          fail_on_leakage: true
+          report_path: reports/validation.json
     outs:
     - path: reports/validation.json
       hash: md5
@@ -89,8 +105,11 @@ stages:
       size: 44784267
     - path: src/evaluate.py
       hash: md5
-      md5: 2f548a00453dbde8abd952e3831a3f51
-      size: 2726
+      md5: 96e6b0c2fce13de0f71577a3b1537bbf
+      size: 2936
+    params:
+      conf/train/default.yaml:
+        batch_size: 32
     outs:
     - path: reports/confusion.csv
       hash: md5
@@ -98,5 +117,5 @@ stages:
       size: 5371
     - path: reports/metrics.json
       hash: md5
-      md5: 23c061008bbb9113d6c22849ac1c581b
-      size: 109
+      md5: eeb6e0fb879849615ef17ab14f4d2bcc
+      size: 136

@@ -1,0 +1,21 @@
+raw_dir: data/raw
+processed_dir: data/processed
+resize: 256 # cạnh ngắn; khớp Resize(256) của transform val
+img_size: 224
+num_workers: 4
+root: data/raw  # Thêm dòng này vì validate.py của bạn có gọi cfg.data.root
+
+# Thêm khối cấu hình dành riêng cho validate.py
+validation:
+  splits: [train, val]
+  classes: [01-minor, 02-moderate, 03-severe]
+  min_side: 32
+  min_per_class: 10
+  min_share: 0.05
+  fail_on_conflict: true
+  fail_on_leakage: true
+  report_path: reports/validation.json
+
+# Thông số chuẩn hóa mặc định của ImageNet
+mean: [0.485, 0.456, 0.406]
+std: [0.229, 0.224, 0.225]

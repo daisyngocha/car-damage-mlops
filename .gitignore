@@ -16,3 +16,4 @@ outputs/
 multirun/
 wandb/
 /data/ls_sample/
+dvc_plots/
