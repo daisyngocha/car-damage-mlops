@@ -1,8 +1,8 @@
 {
-  "accuracy": 65.447,
-  "macro_f1": 65.762,
-  "recall_severe": 54.945,
-  "val_loss": 0.7391,
+  "accuracy": 67.886,
+  "macro_f1": 68.01,
+  "recall_severe": 74.725,
+  "val_loss": 0.7488,
   "n_val": 246,
-  "checkpoint_epoch": 3
+  "checkpoint_epoch": 2
 }
