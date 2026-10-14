@@ -1,0 +1,121 @@
+schema: '2.0'
+stages:
+  validate:
+    cmd: python src/validate.py
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: 4ab1e3f429109dff39f4414f0a01221c.dir
+      size: 14176311
+      nfiles: 1629
+    - path: src/validate.py
+      hash: md5
+      md5: 398f7a8bae8fafe15aeaa426fcd0f0bd
+      size: 4271
+    params:
+      conf/data/default.yaml:
+        validation:
+          splits:
+          - train
+          - val
+          classes:
+          - 01-minor
+          - 02-moderate
+          - 03-severe
+          min_side: 32
+          min_per_class: 10
+          min_share: 0.05
+          fail_on_conflict: true
+          fail_on_leakage: true
+          report_path: reports/validation.json
+    outs:
+    - path: reports/validation.json
+      hash: md5
+      md5: 686e0d31873dd20066c4468302a3db48
+      size: 1136
+  prepare:
+    cmd: python src/prepare.py
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: 4ab1e3f429109dff39f4414f0a01221c.dir
+      size: 14176311
+      nfiles: 1629
+    - path: reports/validation.json
+      hash: md5
+      md5: 686e0d31873dd20066c4468302a3db48
+      size: 1136
+    - path: src/prepare.py
+      hash: md5
+      md5: 6942f4dea0bf026b50cb37e155b8e25c
+      size: 1182
+    params:
+      conf/data/default.yaml:
+        resize: 256
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: a9ffc41b09df184144cfd332d6d8076d.dir
+      size: 30065471
+      nfiles: 1629
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: a9ffc41b09df184144cfd332d6d8076d.dir
+      size: 30065471
+      nfiles: 1629
+    - path: src/train.py
+      hash: md5
+      md5: 93a79058a3d6394c39255165f6e50318
+      size: 3724
+    params:
+      conf/config.yaml:
+        seed: 42
+      conf/model/resnet18.yaml:
+        arch: resnet18
+        num_classes: 3
+        replace_head: true
+        weights: IMAGENET1K_V1
+      conf/train/default.yaml:
+        batch_size: 32
+        epochs: 3
+        lr: 0.003
+        lr_gamma: 0.1
+        lr_step_size: 30
+        momentum: 0.9
+        weight_decay: 0.0001
+    outs:
+    - path: models/model.pt
+      hash: md5
+      md5: 3459e2e85ba93e756b083cc871f8ff5f
+      size: 44784267
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: a9ffc41b09df184144cfd332d6d8076d.dir
+      size: 30065471
+      nfiles: 1629
+    - path: models/model.pt
+      hash: md5
+      md5: 3459e2e85ba93e756b083cc871f8ff5f
+      size: 44784267
+    - path: src/evaluate.py
+      hash: md5
+      md5: 762c8c5e4d988bacd902437bcadea3c9
+      size: 2923
+    params:
+      conf/train/default.yaml:
+        batch_size: 32
+    outs:
+    - path: reports/confusion.csv
+      hash: md5
+      md5: f7ed2da7c54a2eaed56b7a99e3b6d9fa
+      size: 5367
+    - path: reports/metrics.json
+      hash: md5
+      md5: 83458068189d3348931d027ee956d02e
+      size: 135

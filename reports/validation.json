@@ -7,19 +7,15 @@
       "03-severe": 468
     },
     "val": {
-      "01-minor": 82,
+      "01-minor": 80,
       "02-moderate": 75,
       "03-severe": 91
     }
   },
-  "n_duplicate_groups": 11,
+  "n_duplicate_groups": 9,
   "n_conflict_groups": 0,
-  "n_leakage_groups": 2,
+  "n_leakage_groups": 0,
   "duplicate_groups": [
-    [
-      "train/01-minor/0003.JPEG",
-      "val/01-minor/0027.jpeg"
-    ],
     [
       "train/01-minor/0005.JPEG",
       "train/01-minor/0211.jpeg"
@@ -41,10 +37,6 @@
       "train/01-minor/0221.JPEG"
     ],
     [
-      "train/01-minor/0263.JPEG",
-      "val/01-minor/0004.JPEG"
-    ],
-    [
       "train/02-moderate/0055.JPEG",
       "train/02-moderate/0204.JPEG"
     ],
@@ -62,8 +54,6 @@
     ]
   ],
   "errors": [],
-  "warnings": [
-    "2 nhóm trùng ảnh giữa train và val, ví dụ ['train/01-minor/0003.JPEG', 'val/01-minor/0027.jpeg']"
-  ],
-  "n_warnings": 1
+  "warnings": [],
+  "n_warnings": 0
 }
