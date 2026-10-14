@@ -34,6 +34,7 @@ def cfg(tmp_path, image_root):
     """Real Hydra config from conf/, shrunk so the full pipeline runs on CPU in seconds."""
     overrides = [
         f"data.root={image_root}",
+        f"data.processed_dir={image_root}",
         "data.img_size=32",
         "data.resize=36",
         "data.num_workers=0",
