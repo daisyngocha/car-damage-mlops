@@ -18,7 +18,9 @@ repos:
       - id: check-merge-conflict
       - id: check-yaml
       - id: end-of-file-fixer
+        exclude: ^(dvc\.lock|reports/)
       - id: trailing-whitespace
+        exclude: ^(dvc\.lock|reports/)
   - repo: https://github.com/astral-sh/uv-pre-commit
     rev: 0.12.23
     hooks:

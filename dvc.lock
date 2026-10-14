@@ -1,0 +1,102 @@
+schema: '2.0'
+stages:
+  validate:
+    cmd: python src/validate.py
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: 4ab1e3f429109dff39f4414f0a01221c.dir
+      size: 14176311
+      nfiles: 1629
+    - path: src/validate.py
+      hash: md5
+      md5: 398f7a8bae8fafe15aeaa426fcd0f0bd
+      size: 4271
+    outs:
+    - path: reports/validation.json
+      hash: md5
+      md5: 686e0d31873dd20066c4468302a3db48
+      size: 1136
+  prepare:
+    cmd: python src/prepare.py
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: 4ab1e3f429109dff39f4414f0a01221c.dir
+      size: 14176311
+      nfiles: 1629
+    - path: reports/validation.json
+      hash: md5
+      md5: 686e0d31873dd20066c4468302a3db48
+      size: 1136
+    - path: src/prepare.py
+      hash: md5
+      md5: f3402725317086a49b304a47b0552416
+      size: 1180
+    params:
+      conf/data/default.yaml:
+        resize: 256
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: a9ffc41b09df184144cfd332d6d8076d.dir
+      size: 30065471
+      nfiles: 1629
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: a9ffc41b09df184144cfd332d6d8076d.dir
+      size: 30065471
+      nfiles: 1629
+    - path: src/train.py
+      hash: md5
+      md5: 93a79058a3d6394c39255165f6e50318
+      size: 3724
+    params:
+      conf/config.yaml:
+        seed: 42
+      conf/model/resnet18.yaml:
+        arch: resnet18
+        num_classes: 3
+        replace_head: true
+        weights: IMAGENET1K_V1
+      conf/train/default.yaml:
+        batch_size: 32
+        epochs: 3
+        lr: 0.001
+        lr_gamma: 0.1
+        lr_step_size: 30
+        momentum: 0.9
+        weight_decay: 0.0001
+    outs:
+    - path: models/model.pt
+      hash: md5
+      md5: a52b7ca4a3d0d5bc24fd27cbb38574cd
+      size: 44784267
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: a9ffc41b09df184144cfd332d6d8076d.dir
+      size: 30065471
+      nfiles: 1629
+    - path: models/model.pt
+      hash: md5
+      md5: a52b7ca4a3d0d5bc24fd27cbb38574cd
+      size: 44784267
+    - path: src/evaluate.py
+      hash: md5
+      md5: 2f548a00453dbde8abd952e3831a3f51
+      size: 2726
+    outs:
+    - path: reports/confusion.csv
+      hash: md5
+      md5: ebb33e3e736c7e235d01afe48d02aa80
+      size: 5371
+    - path: reports/metrics.json
+      hash: md5
+      md5: 23c061008bbb9113d6c22849ac1c581b
+      size: 109
