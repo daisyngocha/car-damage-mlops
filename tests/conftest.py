@@ -10,7 +10,7 @@ from torch import nn
 from torch.utils.data import DataLoader, TensorDataset
 
 CONF_DIR = str(Path(__file__).resolve().parents[1] / "conf")
-CLASSES = ["minor", "moderate", "severe"]
+CLASSES = ["01-minor", "02-moderate", "03-severe"]
 
 
 def make_image_folder(root: Path, n_per_class: int = 2, size: int = 40) -> None:
