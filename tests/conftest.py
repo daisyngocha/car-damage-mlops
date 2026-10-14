@@ -10,7 +10,7 @@ from torch import nn
 from torch.utils.data import DataLoader, TensorDataset
 
 CONF_DIR = str(Path(__file__).resolve().parents[1] / "conf")
-CLASSES = ["minor", "moderate", "severe"]
+CLASSES = ["01-minor", "02-moderate", "03-severe"]
 
 
 def make_image_folder(root: Path, n_per_class: int = 2, size: int = 40) -> None:
@@ -34,6 +34,7 @@ def cfg(tmp_path, image_root):
     """Real Hydra config from conf/, shrunk so the full pipeline runs on CPU in seconds."""
     overrides = [
         f"data.root={image_root}",
+        f"data.processed_dir={image_root}",
         "data.img_size=32",
         "data.resize=36",
         "data.num_workers=0",

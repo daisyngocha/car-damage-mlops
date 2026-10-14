@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 import torch
+from conftest import CLASSES
 from omegaconf import open_dict
 
 from src import evaluate, train
@@ -15,7 +16,7 @@ def test_train_writes_checkpoint_and_reports(cfg):
 
     models_dir, reports_dir = Path(cfg.paths.models_dir), Path(cfg.paths.reports_dir)
     ckpt = torch.load(models_dir / "model.pt", weights_only=False)
-    assert ckpt["classes"] == ["minor", "moderate", "severe"]
+    assert ckpt["classes"] == CLASSES
     assert ckpt["epoch"] == 1
     assert (reports_dir / "train_history.csv").exists()
     summary = json.loads((reports_dir / "train_summary.json").read_text())
