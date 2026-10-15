@@ -22,6 +22,12 @@ def make_image_folder(root: Path, n_per_class: int = 2, size: int = 40) -> None:
                 Image.new("RGB", (size, size), (80 * i, 40 * j, 120)).save(d / f"{j}.png")
 
 
+@pytest.fixture(autouse=True)
+def _wandb_disabled(monkeypatch):
+    """Tắt W&B trong test: CI không có API key, và local không log run rác lên project thật."""
+    monkeypatch.setenv("WANDB_MODE", "disabled")
+
+
 @pytest.fixture
 def image_root(tmp_path):
     root = tmp_path / "raw"
