@@ -10,6 +10,7 @@ dependencies = [
     "scikit-learn>=1.9.1",
     "torch==2.14.1",          # đúng bản đã đo baseline 60.081
     "torchvision==0.29.1",
+    "wandb>=0.30.0",
 ]
 
 [dependency-groups]

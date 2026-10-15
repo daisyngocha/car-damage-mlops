@@ -12,6 +12,7 @@ from torch.optim.lr_scheduler import StepLR
 from src.data import build_dataset, build_loader
 from src.engine import predict, train_one_epoch
 from src.model import build_model
+from src.tracking import init_run, log_model
 from src.utils import get_device, set_seed
 
 log = logging.getLogger(__name__)
@@ -20,6 +21,7 @@ log = logging.getLogger(__name__)
 @hydra.main(version_base=None, config_path="../conf", config_name="config")
 def main(cfg: DictConfig) -> float:
     log.info("Config:\n%s", OmegaConf.to_yaml(cfg))
+    run = init_run(cfg)
     set_seed(cfg.seed)
     device = get_device(cfg.device)
 
@@ -55,7 +57,7 @@ def main(cfg: DictConfig) -> float:
     models_dir.mkdir(parents=True, exist_ok=True)
     reports_dir.mkdir(parents=True, exist_ok=True)
 
-    history, best_acc = [], -1.0
+    history, best_acc, best_epoch = [], -1.0, 0
     for epoch in range(1, cfg.train.epochs + 1):
         tr = train_one_epoch(model, train_loader, criterion, optimizer, device)
         va = predict(model, val_loader, criterion, device)
@@ -69,6 +71,16 @@ def main(cfg: DictConfig) -> float:
                 "train_acc": tr["acc"],
                 "val_loss": va["loss"],
                 "val_acc": va["acc"],
+            }
+        )
+        run.log(
+            {
+                "epoch": epoch,
+                "lr": lr,
+                "train/loss": tr["loss"],
+                "train/acc": tr["acc"],
+                "val/loss": va["loss"],
+                "val/acc": va["acc"],
             }
         )
         log.info(
@@ -102,6 +114,10 @@ def main(cfg: DictConfig) -> float:
         json.dumps({"best_val_acc": best_acc, "last_val_acc": history[-1]["val_acc"]}, indent=2)
     )
     log.info("Best val_acc %.3f → %s", best_acc, models_dir / "model.pt")
+    log_model(
+        run, str(models_dir / "model.pt"), cfg, {"val_acc": best_acc, "best_epoch": best_epoch}
+    )
+    run.finish()
     return best_acc
 
 

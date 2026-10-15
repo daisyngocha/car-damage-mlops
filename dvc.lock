@@ -1,7 +1,7 @@
 schema: '2.0'
 stages:
   validate:
-    cmd: python src/validate.py
+    cmd: PYTHONPATH=. python src/validate.py
     deps:
     - path: data/raw
       hash: md5
@@ -34,7 +34,7 @@ stages:
       md5: 686e0d31873dd20066c4468302a3db48
       size: 1136
   prepare:
-    cmd: python src/prepare.py
+    cmd: PYTHONPATH=. python src/prepare.py
     deps:
     - path: data/raw
       hash: md5
@@ -59,17 +59,21 @@ stages:
       size: 30065471
       nfiles: 1629
   train:
-    cmd: python src/train.py
+    cmd: PYTHONPATH=. python src/train.py
     deps:
     - path: data/processed
       hash: md5
       md5: a9ffc41b09df184144cfd332d6d8076d.dir
       size: 30065471
       nfiles: 1629
+    - path: src/tracking.py
+      hash: md5
+      md5: 082f61b8989b55b49e13a3b49b1be7e3
+      size: 1671
     - path: src/train.py
       hash: md5
-      md5: 93a79058a3d6394c39255165f6e50318
-      size: 3724
+      md5: 2d38d0e43d101f18fdd4fff2c789a1ca
+      size: 4200
     params:
       conf/config.yaml:
         seed: 42
@@ -79,9 +83,9 @@ stages:
         replace_head: true
         weights: IMAGENET1K_V1
       conf/train/default.yaml:
-        batch_size: 32
+        batch_size: 16
         epochs: 3
-        lr: 0.003
+        lr: 0.0004
         lr_gamma: 0.1
         lr_step_size: 30
         momentum: 0.9
@@ -89,10 +93,18 @@ stages:
     outs:
     - path: models/model.pt
       hash: md5
-      md5: 3459e2e85ba93e756b083cc871f8ff5f
-      size: 44784267
+      md5: c55e97e3f23adfd310e4f497fefe187d
+      size: 44784459
+    - path: reports/train_history.csv
+      hash: md5
+      md5: 10d4f40ac18dba37e52bc5e8c2616484
+      size: 300
+    - path: reports/train_summary.json
+      hash: md5
+      md5: 83735de1267b876f1e1f3792bd73ee8f
+      size: 76
   evaluate:
-    cmd: python src/evaluate.py
+    cmd: PYTHONPATH=. python src/evaluate.py
     deps:
     - path: data/processed
       hash: md5
@@ -101,21 +113,21 @@ stages:
       nfiles: 1629
     - path: models/model.pt
       hash: md5
-      md5: 3459e2e85ba93e756b083cc871f8ff5f
-      size: 44784267
+      md5: c55e97e3f23adfd310e4f497fefe187d
+      size: 44784459
     - path: src/evaluate.py
       hash: md5
       md5: 762c8c5e4d988bacd902437bcadea3c9
       size: 2923
     params:
       conf/train/default.yaml:
-        batch_size: 32
+        batch_size: 16
     outs:
     - path: reports/confusion.csv
       hash: md5
-      md5: f7ed2da7c54a2eaed56b7a99e3b6d9fa
-      size: 5367
+      md5: 7dad0a8bf5c8f5b15537755231d5f418
+      size: 5439
     - path: reports/metrics.json
       hash: md5
-      md5: 83458068189d3348931d027ee956d02e
-      size: 135
+      md5: 63f1adec5cbbbe72887bfb25879d5e4e
+      size: 136

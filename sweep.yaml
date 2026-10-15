@@ -1,0 +1,22 @@
+program: src/train.py
+project: car-damage-mlops
+method: bayes
+metric:
+  name: val/acc
+  goal: maximize
+parameters:
+  train.lr:
+    distribution: log_uniform_values
+    min: 0.0002
+    max: 0.03
+  train.batch_size:
+    values: [16, 32]
+  train.epochs:
+    value: 2                 # rút ngắn cho CPU
+  wandb.log_model:
+    value: false             # không đẩy 6 file model rác lên W&B
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - ${args_no_hyphens}       # sinh train.lr=0.003, đúng cú pháp override của Hydra
