@@ -1,6 +1,6 @@
 stages:
   validate:
-    cmd: python src/validate.py
+    cmd: PYTHONPATH=. python src/validate.py
     deps:
       - src/validate.py
       - data/raw
@@ -12,7 +12,7 @@ stages:
           cache: false
 
   prepare:
-    cmd: python src/prepare.py
+    cmd: PYTHONPATH=. python src/prepare.py
     deps:
       - src/prepare.py
       - data/raw
@@ -24,10 +24,11 @@ stages:
       - data/processed
 
   train:
-    cmd: python src/train.py
+    cmd: PYTHONPATH=. python src/train.py
     deps:
       - src/train.py
       - data/processed
+      - src/tracking.py
     params:
       - conf/config.yaml:
           - seed
@@ -35,9 +36,13 @@ stages:
       - conf/model/resnet18.yaml:
     outs:
       - models/model.pt
+      - reports/train_history.csv:
+          cache: false
+      - reports/train_summary.json:
+          cache: false
 
   evaluate:
-    cmd: python src/evaluate.py
+    cmd: PYTHONPATH=. python src/evaluate.py
     deps:
       - src/evaluate.py
       - models/model.pt

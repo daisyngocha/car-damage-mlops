@@ -19,3 +19,8 @@ hydra:
     subdir: ${hydra.job.num}
   job:
     chdir: false      # giữ cwd = gốc repo → path tương đối trong config vẫn đúng
+wandb:
+  project: car-damage-mlops
+  entity: null                          # null = tài khoản mặc định
+  log_model: true
+  registry_collection: car-damage-classifier
