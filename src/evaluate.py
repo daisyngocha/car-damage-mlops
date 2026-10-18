@@ -60,7 +60,7 @@ def main(cfg: DictConfig) -> None:
     (reports_dir / "metrics.json").write_text(json.dumps(metrics, indent=2))
     # mỗi dòng 1 ảnh val, dùng cho DVC plots (confusion matrix) ở G6
     with open(reports_dir / "confusion.csv", "w", newline="") as f:
-        writer = csv.writer(f)
+        writer = csv.writer(f, lineterminator="\n")
         writer.writerow(["actual", "predicted"])
         writer.writerows(
             (val_ds.classes[t], val_ds.classes[p]) for t, p in zip(res["y_true"], res["y_pred"])

@@ -68,12 +68,12 @@ stages:
       nfiles: 1629
     - path: src/tracking.py
       hash: md5
-      md5: 082f61b8989b55b49e13a3b49b1be7e3
-      size: 1671
+      md5: b1f523a483d6cae66a8282bdfa871f36
+      size: 1663
     - path: src/train.py
       hash: md5
-      md5: 2d38d0e43d101f18fdd4fff2c789a1ca
-      size: 4200
+      md5: 3f511180718f3686dd7082bfe2680d7b
+      size: 4236
     params:
       conf/config.yaml:
         seed: 42
@@ -97,8 +97,8 @@ stages:
       size: 44784459
     - path: reports/train_history.csv
       hash: md5
-      md5: 10d4f40ac18dba37e52bc5e8c2616484
-      size: 300
+      md5: 9c275d53dd08a8c84d7f6a07e31822ea
+      size: 296
     - path: reports/train_summary.json
       hash: md5
       md5: 83735de1267b876f1e1f3792bd73ee8f
@@ -117,16 +117,16 @@ stages:
       size: 44784459
     - path: src/evaluate.py
       hash: md5
-      md5: 762c8c5e4d988bacd902437bcadea3c9
-      size: 2923
+      md5: ff3b0b53953337b4b87880cc4b73e009
+      size: 2944
     params:
       conf/train/default.yaml:
         batch_size: 16
     outs:
     - path: reports/confusion.csv
       hash: md5
-      md5: 7dad0a8bf5c8f5b15537755231d5f418
-      size: 5439
+      md5: ab1ef871d1fb6ceb03b0d26fb194c37c
+      size: 5192
     - path: reports/metrics.json
       hash: md5
       md5: 63f1adec5cbbbe72887bfb25879d5e4e

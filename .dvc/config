@@ -1,5 +1,8 @@
 [core]
     autostage = true
-    remote = localstore
+    remote = dagshub
 ['remote "localstore"']
     url = /home/daisyngocha/dvc-storage/car-damage-mlops
+['remote "dagshub"']
+    url = https://dagshub.com/daisyngocha/car-damage-mlops.dvc
+    auth = basic

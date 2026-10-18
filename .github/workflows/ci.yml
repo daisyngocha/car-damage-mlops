@@ -1,0 +1,95 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v8.1.0
+        with:
+          enable-cache: true
+      - run: uv sync --locked            # fail nếu uv.lock lệch pyproject
+      - name: Lint
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+      - name: Unit tests
+        run: uv run pytest -q
+
+  pipeline:
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      WANDB_MODE: disabled
+      HYDRA_FULL_ERROR: "1"
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0                 # cần origin/main cho metrics diff
+      - uses: astral-sh/setup-uv@v8.1.0
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+
+      - name: Cache DVC + torch weights
+        uses: actions/cache@v4
+        with:
+          path: |
+            .dvc/cache
+            ~/.cache/torch
+          key: dvc-${{ hashFiles('**/*.dvc', 'dvc.lock') }}
+          restore-keys: dvc-
+
+      - name: DVC credentials
+        env:
+          DH_USER: ${{ secrets.DAGSHUB_USER }}
+          DH_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
+        run: |
+          uv run dvc remote modify dagshub --local user "$DH_USER"
+          uv run dvc remote modify dagshub --local password "$DH_TOKEN"
+
+      - run: uv run dvc pull
+
+      - name: dvc.lock khớp code/params/data
+        run: |
+          uv run dvc status
+          uv run dvc status -q || { echo "::error::Pipeline chưa cập nhật: chạy 'uv run dvc repro', commit dvc.lock + metrics, push lại"; exit 1; }
+
+      - name: Comment metric vs main
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          {
+            echo "### Metrics so với main"
+            uv run dvc metrics diff origin/main --md
+            echo
+            echo "### Params thay đổi"
+            uv run dvc params diff origin/main --md
+            echo
+            echo "<sub>head ${{ github.event.pull_request.head.sha }}</sub>"
+          } > report.md
+          gh pr comment ${{ github.event.pull_request.number }} --body-file report.md --edit-last --create-if-none
+
+      - name: Smoke train 1 epoch
+        run: |
+          git config --global user.name ci && git config --global user.email ci@users.noreply.github.com
+          uv run dvc exp run -S 'conf/train/default.yaml:epochs=1'

@@ -1,6 +1,15 @@
 # Giữ nguyên code upstream đến G4 để còn diff với pytorch/examples
-
+default_install_hook_types: [pre-commit, pre-push]   # đặt ở đầu file
 repos:
+  - repo: local
+    hooks:
+      - id: dvc-push
+        name: dvc push
+        entry: uv run dvc push
+        language: system
+        stages: [pre-push]
+        pass_filenames: false
+        always_run: true
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.16.10
     hooks:
