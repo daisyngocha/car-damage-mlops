@@ -50,7 +50,7 @@ jobs:
       - run: uv sync --locked
 
       - name: Cache DVC + torch weights
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             .dvc/cache
