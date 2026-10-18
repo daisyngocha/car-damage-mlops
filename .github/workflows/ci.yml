@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v10.3.0
         with:
           enable-cache: true
@@ -41,7 +41,7 @@ jobs:
       WANDB_MODE: disabled
       HYDRA_FULL_ERROR: "1"
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0                 # cần origin/main cho metrics diff
       - uses: astral-sh/setup-uv@v10.3.0
