@@ -107,7 +107,7 @@ def main(cfg: DictConfig) -> float:
             )
 
     with open(reports_dir / "train_history.csv", "w", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=history[0].keys())
+        writer = csv.DictWriter(f, fieldnames=history[0].keys(), lineterminator="\n")
         writer.writeheader()
         writer.writerows(history)
     (reports_dir / "train_summary.json").write_text(
