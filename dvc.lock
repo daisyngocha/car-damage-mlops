@@ -85,7 +85,7 @@ stages:
       conf/train/default.yaml:
         batch_size: 16
         epochs: 3
-        lr: 0.0004
+        lr: 0.005
         lr_gamma: 0.1
         lr_step_size: 30
         momentum: 0.9
@@ -93,16 +93,16 @@ stages:
     outs:
     - path: models/model.pt
       hash: md5
-      md5: c55e97e3f23adfd310e4f497fefe187d
+      md5: d9e149846ff423d5e568ee7689b8b130
       size: 44784459
     - path: reports/train_history.csv
       hash: md5
-      md5: 9c275d53dd08a8c84d7f6a07e31822ea
-      size: 296
+      md5: 15aef280c8afe1919136df0ce8e3c40c
+      size: 291
     - path: reports/train_summary.json
       hash: md5
-      md5: 83735de1267b876f1e1f3792bd73ee8f
-      size: 76
+      md5: 5c34831fd18eb5feb170d324eede5faf
+      size: 75
   evaluate:
     cmd: PYTHONPATH=. python src/evaluate.py
     deps:
@@ -113,7 +113,7 @@ stages:
       nfiles: 1629
     - path: models/model.pt
       hash: md5
-      md5: c55e97e3f23adfd310e4f497fefe187d
+      md5: d9e149846ff423d5e568ee7689b8b130
       size: 44784459
     - path: src/evaluate.py
       hash: md5
@@ -125,9 +125,9 @@ stages:
     outs:
     - path: reports/confusion.csv
       hash: md5
-      md5: ab1ef871d1fb6ceb03b0d26fb194c37c
-      size: 5192
+      md5: 4581225c1ae15bfb13900c6c23b6d70e
+      size: 5309
     - path: reports/metrics.json
       hash: md5
-      md5: 63f1adec5cbbbe72887bfb25879d5e4e
+      md5: 565a26199af2b241826563df71235904
       size: 136
