@@ -19,3 +19,8 @@ def test_build_model_replaces_head():
 def test_build_model_keeps_imagenet_head_when_not_replaced():
     model = build_model(model_cfg(replace_head=False))
     assert model.fc.out_features == 1000
+
+
+def test_head_3_classes():
+    model = build_model(model_cfg(num_classes=3)).eval()
+    assert model(torch.randn(2, 3, 224, 224)).shape == (2, 3)
