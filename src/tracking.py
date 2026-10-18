@@ -3,10 +3,9 @@
 import os
 from pathlib import Path
 
+import wandb
 import yaml
 from omegaconf import DictConfig, OmegaConf
-
-import wandb
 
 
 def data_md5(dvc_file: str) -> str:
